@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32526.322
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoJailMarker", "AutoJailMarker\AutoJailMarker.csproj", "{11FB88E1-F08C-4714-9CFA-176D734C8321}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoNaelMarker", "AutoNaelMarker\AutoNaelMarker.csproj", "{11FB88E1-F08C-4714-9CFA-176D734C8321}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

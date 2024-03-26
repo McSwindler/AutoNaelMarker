@@ -1,5 +1,5 @@
-﻿using AutoJailMarker.Classes;
-using AutoJailMarker.Data;
+﻿using AutoNaelMarker.Classes;
+using AutoNaelMarker.Data;
 using Dalamud.Game.ClientState.Objects.SubKinds;
 using Dalamud.Interface;
 using Dalamud.Interface.Utility;
@@ -11,9 +11,9 @@ using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
 
-namespace AutoJailMarker.Windows;
+namespace AutoNaelMarker.Windows;
 
-internal class PriorityListWindow(AutoJailMarkerConfig config, AutoJailMarkerPlugin autoJailMarkerPlugin) : IDisposable
+internal class PriorityListWindow(AutoNaelMarkerConfig config, AutoNaelMarkerPlugin AutoNaelMarkerPlugin) : IDisposable
 {
     public bool Visible;
     private string inlineError = string.Empty;
@@ -42,7 +42,7 @@ internal class PriorityListWindow(AutoJailMarkerConfig config, AutoJailMarkerPlu
         var partySize = Service.PartyList.Length;
 
         ImGui.SetNextWindowSizeConstraints(minSize, new Vector2(float.MaxValue, float.MaxValue));
-        if (ImGui.Begin("Auto Jail Marker - Priority List", ref Visible,
+        if (ImGui.Begin("Auto Nael Marker - Priority List", ref Visible,
                 ImGuiWindowFlags.NoResize | ImGuiWindowFlags.AlwaysAutoResize))
         {
             DrawPriorityTable(config.UseJobPrio);
@@ -224,9 +224,9 @@ internal class PriorityListWindow(AutoJailMarkerConfig config, AutoJailMarkerPlu
         {
             if (ImGui.Button(buttonName))
             {
-                autoJailMarkerPlugin.UpdateOrderedParty();
+                AutoNaelMarkerPlugin.UpdateOrderedParty();
 
-                var newPrio = autoJailMarkerPlugin.OrderedPartyList.Select(p => p.Name.TextValue).ToList();
+                var newPrio = AutoNaelMarkerPlugin.OrderedPartyList.Select(p => p.Name.TextValue).ToList();
 
                 if (newPrio.Count != 8)
                 {

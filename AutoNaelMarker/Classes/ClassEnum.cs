@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace AutoJailMarker.Classes;
+namespace AutoNaelMarker.Classes;
 
 [SuppressMessage("ReSharper", "InconsistentNaming")]
 public enum ClassEnum : byte

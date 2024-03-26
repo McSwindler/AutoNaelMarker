@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace AutoJailMarker.Classes;
+namespace AutoNaelMarker.Classes;
 
 public struct PartyIndex(string name, uint objectId, int index)
 {

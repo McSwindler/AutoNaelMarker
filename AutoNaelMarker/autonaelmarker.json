@@ -1,0 +1,15 @@
+{
+    "Author": "McSwindler",
+    "Name": "Auto Nael Marker",
+    "Description": "A scuffed ucob nael lightning auto marker",
+    "Punchline": "Simple Lightning",
+    "InternalName": "AutoNaelMarker",
+    "Tags": [
+        "nael",
+        "lightning",
+        "ucob"
+    ],
+    "IconUrl": "https://raw.githubusercontent.com/LockonS483/AutoNaelMarker/master/Data/TitIco.png",
+    "RepoUrl": "https://github.com/LockonS483/AutoNaelMarker",
+    "ApplicableVersion": "any"
+}

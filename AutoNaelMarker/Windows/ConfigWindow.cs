@@ -1,6 +1,6 @@
-﻿using AutoJailMarker.Classes;
-using AutoJailMarker.Data;
-using AutoJailMarker.Managers;
+﻿using AutoNaelMarker.Classes;
+using AutoNaelMarker.Data;
+using AutoNaelMarker.Managers;
 using Dalamud.Interface.Utility;
 using Dalamud.Interface.Colors;
 using Dalamud.Interface.Components;
@@ -11,9 +11,9 @@ using System;
 using System.Linq;
 using System.Numerics;
 
-namespace AutoJailMarker.Windows;
+namespace AutoNaelMarker.Windows;
 
-internal class ConfigWindow(AutoJailMarkerConfig config, IDalamudTextureWrap titanImage, AutoJailMarkerPlugin autoJailMarkerPlugin) : IDisposable
+internal class ConfigWindow(AutoNaelMarkerConfig config, IDalamudTextureWrap titanImage, AutoNaelMarkerPlugin AutoNaelMarkerPlugin) : IDisposable
 {
     public bool Visible;
     private bool headerOpened;
@@ -45,7 +45,7 @@ internal class ConfigWindow(AutoJailMarkerConfig config, IDalamudTextureWrap tit
 
         ImGui.SetNextWindowSize(initSize, ImGuiCond.FirstUseEver);
         ImGui.SetNextWindowSizeConstraints(minSize, new Vector2(float.MaxValue, float.MaxValue));
-        if (ImGui.Begin("Auto Jail Marker - Settings", ref Visible))
+        if (ImGui.Begin("Auto Nael Marker - Settings", ref Visible))
         {
             DrawGeneralSection();
             DrawPrioritySection();
@@ -98,7 +98,7 @@ internal class ConfigWindow(AutoJailMarkerConfig config, IDalamudTextureWrap tit
         if (!config.UseJobPrio && config.Prio.All(p => p == string.Empty))
             ImGui.PushStyleColor(ImGuiCol.Text, 4284769535);
 
-        if (ImGui.Button("Change Priority")) autoJailMarkerPlugin.OnCommand(Helper.PriorityCommand, "");
+        if (ImGui.Button("Change Priority")) AutoNaelMarkerPlugin.OnCommand(Helper.PriorityCommand, "");
 
         if (!config.UseJobPrio && config.Prio.All(p => p == string.Empty))
         {
@@ -166,21 +166,21 @@ internal class ConfigWindow(AutoJailMarkerConfig config, IDalamudTextureWrap tit
     /// <param name="partySize">Size of the current party</param>
     private void DrawCheckPrioButton(int partySize)
     {
-        if (partySize >= Helper.JailCount)
+        if (partySize >= Helper.LightningCount)
         {
             if (ImGui.Button("Check Priority"))
             {
-                autoJailMarkerPlugin.UpdateOrderedParty(config.Debug);
-                var partyPrioList = autoJailMarkerPlugin.CreatePartyPrioList(config.Debug);
+                AutoNaelMarkerPlugin.UpdateOrderedParty(config.Debug);
+                var partyPrioList = AutoNaelMarkerPlugin.CreatePartyPrioList(config.Debug);
 
                 var playersMarked = 0;
                 var notInPrio = false;
                 var rnd = new Random();
 
                 var randomized = Enumerable.Range(0, partySize).ToList();
-                randomized = randomized.OrderBy(_ => rnd.Next()).ToList().GetRange(0, Helper.JailCount);
+                randomized = randomized.OrderBy(_ => rnd.Next()).ToList().GetRange(0, Helper.LightningCount);
 
-                var marked = autoJailMarkerPlugin.OrderedPartyList.Where((_, i) => randomized.Contains(i))
+                var marked = AutoNaelMarkerPlugin.OrderedPartyList.Where((_, i) => randomized.Contains(i))
                     .Select(pChar => pChar.ObjectId).ToList();
 
                 for (var i = 0; i < partyPrioList.Count; i++)

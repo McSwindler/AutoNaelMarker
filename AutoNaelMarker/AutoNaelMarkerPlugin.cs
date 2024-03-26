@@ -1,8 +1,8 @@
-﻿using AutoJailMarker.Classes;
-using AutoJailMarker.Data;
-using AutoJailMarker.Hooks;
-using AutoJailMarker.Managers;
-using AutoJailMarker.Windows;
+﻿using AutoNaelMarker.Classes;
+using AutoNaelMarker.Data;
+using AutoNaelMarker.Hooks;
+using AutoNaelMarker.Managers;
+using AutoNaelMarker.Windows;
 using Dalamud.Game.Command;
 using Dalamud.Game.ClientState.Objects.SubKinds;
 using Dalamud.Plugin;
@@ -14,24 +14,24 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-namespace AutoJailMarker;
+namespace AutoNaelMarker;
 
 // ReSharper disable once ClassNeverInstantiated.Global
-internal class AutoJailMarkerPlugin : IDalamudPlugin
+internal class AutoNaelMarkerPlugin : IDalamudPlugin
 {
-    private static string Name => "Auto Jail Marker";
+    private static string Name => "Auto Nael Marker";
     public List<PlayerCharacter> OrderedPartyList;
     private List<int> markedIndexes = [];
 
-    public AutoJailMarkerConfig PluginConfig { get; }
+    public AutoNaelMarkerConfig PluginConfig { get; }
     private readonly ConfigWindow configWindow;
     private readonly PriorityListWindow priorityListWindow;
     private readonly ActionEffectHook actionEffectHook;
 
-    public AutoJailMarkerPlugin(DalamudPluginInterface pluginInterface)
+    public AutoNaelMarkerPlugin(DalamudPluginInterface pluginInterface)
     {
         pluginInterface.Create<Service>();
-        PluginConfig = pluginInterface.GetPluginConfig() as AutoJailMarkerConfig ?? new AutoJailMarkerConfig();
+        PluginConfig = pluginInterface.GetPluginConfig() as AutoNaelMarkerConfig ?? new AutoNaelMarkerConfig();
 
         Service.ChatManager = new ChatManager();
 
@@ -39,7 +39,7 @@ internal class AutoJailMarkerPlugin : IDalamudPlugin
 
         // load titan image from embedded resources
         var assembly = Assembly.GetExecutingAssembly();
-        const string resourceName = "AutoJailMarker.Data.Titan.png";
+        const string resourceName = "AutoNaelMarker.Data.Titan.png";
 
         var titanData = Array.Empty<byte>();
         using (var stream = assembly.GetManifestResourceStream(resourceName))
@@ -92,7 +92,7 @@ internal class AutoJailMarkerPlugin : IDalamudPlugin
 
     private void FrameworkUpdate(IFramework framework)
     {
-        if (!Helper.IsMarking && actionEffectHook.CollectionTargets.Count >= Helper.JailCount)
+        if (!Helper.IsMarking && actionEffectHook.CollectionTargets.Count >= Helper.LightningCount)
         {
             Helper.IsMarking = true;
             ExecuteMarkers(PluginConfig.Debug);
@@ -169,7 +169,7 @@ internal class AutoJailMarkerPlugin : IDalamudPlugin
 
                 ChatManager.PrintEcho($"--> FOUND", echo);
 
-                if (playersMarked == Helper.JailCount) break;
+                if (playersMarked == Helper.LightningCount) break;
             }
             else
             {

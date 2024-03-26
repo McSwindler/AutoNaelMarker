@@ -1,10 +1,10 @@
-﻿using AutoJailMarker.Managers;
+﻿using AutoNaelMarker.Managers;
 using Dalamud.Game.ClientState.Objects;
 using Dalamud.IoC;
 using Dalamud.Plugin;
 using Dalamud.Plugin.Services;
 
-namespace AutoJailMarker;
+namespace AutoNaelMarker;
 
 internal class Service
 {

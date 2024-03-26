@@ -1,4 +1,4 @@
-﻿using AutoJailMarker.Classes;
+﻿using AutoNaelMarker.Classes;
 using Dalamud.Plugin.Services;
 using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.UI;
@@ -6,7 +6,7 @@ using System;
 using System.Runtime.InteropServices;
 using System.Threading.Channels;
 
-namespace AutoJailMarker.Managers;
+namespace AutoNaelMarker.Managers;
 
 public class ChatManager : IDisposable
 {
@@ -54,11 +54,11 @@ public class ChatManager : IDisposable
 
     public static void PrintEcho(string message, bool echo = true)
     {
-        if (echo) Service.ChatGui.Print($"[JailMarker] {message}");
+        if (echo) Service.ChatGui.Print($"[NaelMarker] {message}");
     }
 
     public static void PrintError(string message)
     {
-        Service.ChatGui.PrintError($"[JailMarker] {message}");
+        Service.ChatGui.PrintError($"[NaelMarker] {message}");
     }
 }

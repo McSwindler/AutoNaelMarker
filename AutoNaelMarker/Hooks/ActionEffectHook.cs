@@ -1,4 +1,4 @@
-﻿using AutoJailMarker.Classes;
+﻿using AutoNaelMarker.Classes;
 using Dalamud.Hooking;
 using Dalamud.Utility.Signatures;
 using System;
@@ -6,27 +6,27 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-namespace AutoJailMarker.Hooks;
+namespace AutoNaelMarker.Hooks;
 
 internal unsafe class ActionEffectHook : IDisposable
 {
     [Signature("40 55 53 57 41 54 41 55 41 56 41 57 48 8D AC 24 ?? ?? ?? ?? 48 81 EC ?? ?? ?? ?? 48 8B 05 ?? ?? ?? ?? 48 33 C4 48 89 45 70")]
     private readonly IntPtr receiveAEtPtr = new();
     
-    private readonly AutoJailMarkerPlugin autoJailMarkerPlugin;
+    private readonly AutoNaelMarkerPlugin AutoNaelMarkerPlugin;
     private readonly Hook<ReceiveActionEffectDelegate> receiveActionEffectHook;
 
     private delegate void ReceiveActionEffectDelegate(int sourceId, IntPtr sourceCharacter, IntPtr pos,
         IntPtr effectHeader, IntPtr effectArray, IntPtr effectTrail);
 
-    private static readonly uint[] SkillIds = [645, 1652, 11115, 11116];
+    private static readonly uint[] SkillIds = [ 9927 ];
 
     public List<uint> CollectionTargets = [];
     public readonly Stopwatch ClearMarkers = new();
 
-    public ActionEffectHook(AutoJailMarkerPlugin autoJailMarkerPlugin)
+    public ActionEffectHook(AutoNaelMarkerPlugin AutoNaelMarkerPlugin)
     {
-        this.autoJailMarkerPlugin = autoJailMarkerPlugin;
+        this.AutoNaelMarkerPlugin = AutoNaelMarkerPlugin;
 
         Service.Hooks.InitializeFromAttributes(this);
 
@@ -43,7 +43,7 @@ internal unsafe class ActionEffectHook : IDisposable
     private void ReceiveActionEffect(int sourceId, IntPtr sourceCharacter, IntPtr pos, IntPtr effectHeader,
         IntPtr effectArray, IntPtr effectTrail)
     {
-        if (!Helper.PlayerExists || !autoJailMarkerPlugin.PluginConfig.Enabled)
+        if (!Helper.PlayerExists || !AutoNaelMarkerPlugin.PluginConfig.Enabled)
         {
             receiveActionEffectHook.Original(sourceId, sourceCharacter, pos, effectHeader, effectArray,
                 effectTrail);
@@ -92,7 +92,7 @@ internal unsafe class ActionEffectHook : IDisposable
 
                     CollectionTargets.Add((uint)l);
 
-                    if (CollectionTargets.Count == Helper.JailCount) break;
+                    if (CollectionTargets.Count == Helper.LightningCount) break;
                 }
 
         receiveActionEffectHook.Original(sourceId, sourceCharacter, pos, effectHeader, effectArray, effectTrail);

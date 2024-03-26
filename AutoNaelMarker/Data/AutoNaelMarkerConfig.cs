@@ -1,11 +1,11 @@
-﻿using AutoJailMarker.Classes;
+﻿using AutoNaelMarker.Classes;
 using Dalamud.Configuration;
 using System;
 
-namespace AutoJailMarker.Data;
+namespace AutoNaelMarker.Data;
 
 [Serializable]
-public class AutoJailMarkerConfig : IPluginConfiguration
+public class AutoNaelMarkerConfig : IPluginConfiguration
 {
     public int Version { get; set; } = 0;
 
