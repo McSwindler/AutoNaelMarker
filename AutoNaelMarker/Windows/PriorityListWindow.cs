@@ -77,7 +77,7 @@ internal class PriorityListWindow(AutoNaelMarkerConfig config, AutoNaelMarkerPlu
             ImGui.TableSetupColumn(string.Empty, ImGuiTableColumnFlags.WidthFixed, inputColumnSize);
             ImGui.TableSetupColumn(string.Empty, ImGuiTableColumnFlags.WidthFixed, buttonColumnSize);
 
-            var fieldCount = useJobPrio ? 19 : 8;
+            var fieldCount = useJobPrio ? Helper.JobCount : 8;
 
             var duplicates = config.Prio.GroupBy(n => n.ToLower()).Where(g => g.Key != "" && g.Count() > 1).Select(g => g.Key).ToList();
 
@@ -99,7 +99,7 @@ internal class PriorityListWindow(AutoNaelMarkerConfig config, AutoNaelMarkerPlu
                 if (useJobPrio)
                 {
                     ImGui.PushStyleVar(ImGuiStyleVar.Alpha, 0.75f);
-                    var abbreviation = Helper.Classes.Count == 19
+                    var abbreviation = Helper.Classes.Count == Helper.JobCount
                         ? Helper.Classes[(int)config.PrioJobs[i]]
                         : config.PrioJobs[i].ToString();
                     ImGui.InputText("##prioInput", ref abbreviation, 3, ImGuiInputTextFlags.ReadOnly);
@@ -179,7 +179,7 @@ internal class PriorityListWindow(AutoNaelMarkerConfig config, AutoNaelMarkerPlu
     private void SetCharacterFromTarget(int currentIndex)
     {
         var target = Service.TargetManager.Target;
-        if (target is PlayerCharacter targetCharacter)
+        if (target is IPlayerCharacter targetCharacter)
         {
             var fullName = targetCharacter.Name.TextValue;
 

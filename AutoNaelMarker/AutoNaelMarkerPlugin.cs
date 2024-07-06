@@ -20,7 +20,7 @@ namespace AutoNaelMarker;
 internal class AutoNaelMarkerPlugin : IDalamudPlugin
 {
     private static string Name => "Auto Nael Marker";
-    public List<PlayerCharacter> OrderedPartyList;
+    public List<IPlayerCharacter> OrderedPartyList;
     private List<int> markedIndexes = [];
 
     public AutoNaelMarkerConfig PluginConfig { get; }
@@ -28,10 +28,19 @@ internal class AutoNaelMarkerPlugin : IDalamudPlugin
     private readonly PriorityListWindow priorityListWindow;
     private readonly ActionEffectHook actionEffectHook;
 
-    public AutoNaelMarkerPlugin(DalamudPluginInterface pluginInterface)
+    public AutoNaelMarkerPlugin(IDalamudPluginInterface pluginInterface)
     {
         pluginInterface.Create<Service>();
         PluginConfig = pluginInterface.GetPluginConfig() as AutoNaelMarkerConfig ?? new AutoNaelMarkerConfig();
+
+        // Add new classes to config
+        if (PluginConfig.PrioJobs.Length != Helper.JobCount)
+        {
+            var list = PluginConfig.PrioJobs.ToList();
+            list.AddRange(new AutoNaelMarkerConfig().PrioJobs.Where(job => !PluginConfig.PrioJobs.Contains(job)));
+
+            PluginConfig.PrioJobs = list.ToArray();
+        }
 
         Service.ChatManager = new ChatManager();
 
@@ -52,7 +61,7 @@ internal class AutoNaelMarkerPlugin : IDalamudPlugin
             }
         }
 
-        var titanImage = titanData.Length != 0 ? Service.PluginInterface.UiBuilder.LoadImage(titanData) : null;
+        var titanImage = titanData.Length != 0 ? Service.Texture.CreateFromImageAsync(titanData).Result : null;
 
         configWindow = new ConfigWindow(PluginConfig, titanImage, this);
         priorityListWindow = new PriorityListWindow(PluginConfig, this);
@@ -216,7 +225,7 @@ internal class AutoNaelMarkerPlugin : IDalamudPlugin
                                      p.Name.TextValue + (p.HomeWorld.GameData != null
                                          ? "@" + p.HomeWorld.GameData.Name.RawString
                                          : ""),
-                                     p.ObjectId,
+                                     p.GameObjectId,
                                      OrderedPartyList.IndexOf(p) + 1)
                              ))
                 {
@@ -251,7 +260,7 @@ internal class AutoNaelMarkerPlugin : IDalamudPlugin
                         p.Name.TextValue + (p.HomeWorld.GameData != null
                             ? "@" + p.HomeWorld.GameData.Name.RawString
                             : ""),
-                        p.ObjectId,
+                        p.GameObjectId,
                         OrderedPartyList.IndexOf(p) + 1
                     )
                 );
@@ -273,7 +282,7 @@ internal class AutoNaelMarkerPlugin : IDalamudPlugin
                              pChar.Name.TextValue + (pChar.HomeWorld.GameData != null
                                  ? "@" + pChar.HomeWorld.GameData.Name.RawString
                                  : ""),
-                             pChar.ObjectId,
+                             pChar.GameObjectId,
                              OrderedPartyList.IndexOf(pChar) + 1
                          )
                     )

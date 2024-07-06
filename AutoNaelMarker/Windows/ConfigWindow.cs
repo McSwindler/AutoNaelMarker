@@ -10,6 +10,7 @@ using Lumina.Excel.GeneratedSheets;
 using System;
 using System.Linq;
 using System.Numerics;
+using Dalamud.Interface.Textures.TextureWraps;
 
 namespace AutoNaelMarker.Windows;
 
@@ -145,7 +146,7 @@ internal class ConfigWindow(AutoNaelMarkerConfig config, IDalamudTextureWrap tit
         if (ImGui.Button("Try Marks"))
         {
             var currentMark = 1;
-            partySize = partySize > 3 ? 3 : partySize == 0 ? 1 : partySize;
+            partySize = partySize > 2 ? 2 : partySize == 0 ? 1 : partySize;
 
             for (var i = 1; i <= partySize; i++)
             {
@@ -181,7 +182,7 @@ internal class ConfigWindow(AutoNaelMarkerConfig config, IDalamudTextureWrap tit
                 randomized = randomized.OrderBy(_ => rnd.Next()).ToList().GetRange(0, Helper.LightningCount);
 
                 var marked = AutoNaelMarkerPlugin.OrderedPartyList.Where((_, i) => randomized.Contains(i))
-                    .Select(pChar => pChar.ObjectId).ToList();
+                    .Select(pChar => pChar.GameObjectId).ToList();
 
                 for (var i = 0; i < partyPrioList.Count; i++)
                 {
@@ -233,17 +234,17 @@ internal class ConfigWindow(AutoNaelMarkerConfig config, IDalamudTextureWrap tit
 
         ImGui.Text("Marking ");
         ImGui.SameLine();
-        if (territoryType == 777)
+        if (territoryType == 733)
         {
             ImGui.TextColored(ImGuiColors.HealerGreen, "activated");
             ImGui.SameLine();
-            ImGui.Text(": In UwU");
+            ImGui.Text(": In UCOB");
         }
         else
         {
             ImGui.TextColored(ImGuiColors.DPSRed, "deactivated");
             ImGui.SameLine();
-            ImGui.Text(": Not in UwU");
+            ImGui.Text(": Not in UCOB");
         }
 
         ImGui.PopStyleVar();

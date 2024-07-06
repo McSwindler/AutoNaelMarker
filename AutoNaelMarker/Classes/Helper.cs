@@ -11,6 +11,7 @@ public static unsafe class Helper
     public const string PriorityCommand = "/nmpriority";
     public const uint CollectionTimeout = 15000;
     public const int LightningCount = 2;
+    public const int JobCount = 21;
     public static Dictionary<int, string> Classes { get; set; } = new();
     public static bool IsMarking { get; set; }
 
@@ -23,15 +24,15 @@ public static unsafe class Helper
     public static bool IsIdInParty(ulong id)
     {
         if (!PlayerExists) return false;
-        // 777 = UwU, 296 = Titan
-        return Service.ClientState.TerritoryType is 280 /*or 296*/ &&
-               Service.PartyList.Any(p => p.GameObject?.ObjectId == (uint)id);
+        // 733 = UCOB
+        return Service.ClientState.TerritoryType is 733 &&
+               Service.PartyList.Any(p => p.GameObject?.GameObjectId == (uint)id);
     }
 
     public static int GetHudGroupMember(int index)
     {
         var frameworkInstance = FFXIVClientStructs.FFXIV.Client.System.Framework.Framework.Instance();
-        var baseAddress = (byte*)frameworkInstance->GetUiModule()->GetAgentModule()->GetAgentByInternalId(AgentId.Hud);
+        var baseAddress = (byte*)frameworkInstance->UIModule->GetAgentModule()->GetAgentByInternalId(AgentId.Hud);
         const int groupDataOffset = 0xCC8;
 
         var objectId = *(int*)(baseAddress + groupDataOffset + index * 0x20 + 0x18);
@@ -39,12 +40,12 @@ public static unsafe class Helper
         return objectId;
     }
 
-    public static PlayerCharacter GetPlayerByObjectId(uint objectId)
+    public static IPlayerCharacter GetPlayerByObjectId(uint objectId)
     {
         var result = Service.ObjectTable.SearchById(objectId);
 
-        if (result?.GetType() == typeof(PlayerCharacter) && result as PlayerCharacter != null)
-            return result as PlayerCharacter;
+        if (result?.GetType() == typeof(IPlayerCharacter) && result as IPlayerCharacter != null)
+            return result as IPlayerCharacter;
 
         return null;
     }
